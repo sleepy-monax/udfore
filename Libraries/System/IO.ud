@@ -1,0 +1,10 @@
+namespace System;
+
+module IO
+{
+    function Print(String string)
+    {
+
+    }
+}
+

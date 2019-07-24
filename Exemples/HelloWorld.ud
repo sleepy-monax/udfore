@@ -1,0 +1,9 @@
+use System;
+
+module HelloWorld
+{
+    function Main()
+    {
+        IO.Print("Hello, world!");
+    }
+}
