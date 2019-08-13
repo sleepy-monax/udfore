@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <string.h>
 
+#include "logger.c"
 #include "utils.c"
 
 struct source;
@@ -105,23 +106,24 @@ void source_from_string_close(source_t *this)
 
 void source_from_string_next_char(source_t *this)
 {
-    if (this->offset >= this->lenght)
-    {
-        this->is_EOF = true;
-    }
-
     if (!this->is_EOF)
     {
-        assert(this->offset < this->lenght);
-        int chr = ((const char *)this->p)[this->offset];
+        assert(this->offset <= this->lenght);
+        int chr;
 
-        if (chr == EOF)
+        if (this->offset < this->lenght)
         {
+            chr = ((const char *)this->p)[this->offset];
+        }
+        else
+        {
+            this->is_EOF = true;
             chr = 0;
         }
 
         this->current_char = this->peeked_char;
         this->peeked_char = chr;
+
         this->offset++;
     }
     else
@@ -133,6 +135,8 @@ void source_from_string_next_char(source_t *this)
 
 source_t *source_from_string(const char *source_code, size_t lenght)
 {
+    logger_trace("source_from_string of size %d", lenght);
+
     char *str = malloc(lenght);
     memcpy(str, source_code, lenght);
 

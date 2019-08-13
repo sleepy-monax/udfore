@@ -25,6 +25,11 @@ lexer_t *lexer(source_t *source)
     return this;
 }
 
+void lexer_delete(lexer_t *this)
+{
+    free(this);
+}
+
 bool lexer_is_EOF(lexer_t *this)
 {
     return source_is_EOF(this->source);
