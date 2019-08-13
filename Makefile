@@ -1,10 +1,12 @@
-UDFORE_MACHINE_SOURCE=${wildcard Machine/*.c}
+UDFORE_RUNTIME_MAIN=runtime/main.c
 
-udfore: $(UDFORE_MACHINE_SOURCE)
-	$(CC) -Wall -Wextra $^ -o $@
+udfore: $(UDFORE_RUNTIME_MAIN)
+	$(CC) -std=gnu11 -Wall -Wextra -Werror $^ -o $@
+
+.PHONY: udfore
 
 test: udfore
-	./udfore Exemples/FizzBuzz.ud 
+	./udfore samples/HelloWorld.ud 
 
 clean:
 	rm udfore
