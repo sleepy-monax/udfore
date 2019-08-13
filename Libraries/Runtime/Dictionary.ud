@@ -1,6 +1,0 @@
-namespace Runtime;
-
-type Dictionary<KeyType, ValueType>
-{
-
-}

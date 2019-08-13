@@ -6,17 +6,17 @@ module FizzBuzz
     {
         for (var i in 1..100)
         {
-            if (i % 3 is 0)
+            if (i % 3 = 0)
             {
                 IO.Print("Fizz");
             }
 
-            if (i % 5 is 0)
+            if (i % 5 = 0)
             {
                 IO.Print("Buzz");
             }
 
-            if ((i % 3 isnt 0) and (i % 5 isnt 0))
+            if ((i % 3 != 0) and (i % 5 != 0))
             {
                 IO.Print(i);
             }
