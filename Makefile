@@ -4,9 +4,9 @@ TESTS := $(wildcard $(PROJECT)/tests/*.test.c)
 SOURCES := $(filter-out $(wildcard $(PROJECT)/tests/*.test.c), $(wildcard $(PROJECT)/*/*.c))
 OBJECTS := $(SOURCES:.c=.o)
 
-CC = gcc
-LDFLAGS = -lm
-CFLAGS = -g \
+CC := gcc
+LDFLAGS := -lm
+CFLAGS := -g \
 		 -std=c11 \
 		 -MD \
 		 -I. \
@@ -16,7 +16,7 @@ CFLAGS = -g \
 		 -fsanitize=address \
 		 -fsanitize=undefined
 
-.PHONY: all clean test
+.PHONY: all clean test $(TESTS:.c=.run)
 
 all: $(PROJECT).out
 
@@ -26,10 +26,15 @@ clean:
 run: $(PROJECT).out
 	./$(PROJECT).out
 
-$(PROJECT).out: $(PROJECT)/tests/main.c $(OBJECTS)
+test: $(TESTS:.c=.run)
+
+$(PROJECT).out: $(PROJECT)/main.o $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-$(PROJECT)/tests/Lexer.test.out: $(PROJECT)/tests/Lexer.test.o $(OBJECTS)
+$(PROJECT)/tests/%.test.run: $(PROJECT)/tests/%.test.out
+	$^
+
+$(PROJECT)/tests/%.test.out: $(PROJECT)/tests/%.test.o $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 
