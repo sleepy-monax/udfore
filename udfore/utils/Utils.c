@@ -1,18 +1,4 @@
-#pragma once
-
-#include <stdio.h>
-#include <stdbool.h>
-#include <assert.h>
-
-size_t utils_get_file_size(FILE *file)
-{
-    assert(file);
-    fseek(file, 0, SEEK_END);
-    size_t size = ftell(file);
-    rewind(file);
-
-    return size;
-}
+#include "udfore/utils/Utils.h"
 
 bool utils_is_white_space(char chr)
 {
