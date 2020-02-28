@@ -2,7 +2,7 @@ use System;
 
 module FizzBuzz
 {
-    function Main()
+    function main()
     {
         for (let i in 1..100)
         {

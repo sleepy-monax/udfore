@@ -75,18 +75,15 @@ type Circle
         return PI * radius ** 2;
     }
 
-    cast string
-    {
-        return "Circle of radius " .. radius;
-    }
+    cast string -> "Circle of radius " .. radius;
 }
 
-function isBigger (Shape left, Shape right) -> bool
+function is_bigger (Shape left, Shape right) -> bool
 {
     return left.surface() > right.surface();
-}
+}̣
 
-function Main()
+function main()
 {
     let square := Rectangle(10, 1O);
     let circle := Circle(25);
