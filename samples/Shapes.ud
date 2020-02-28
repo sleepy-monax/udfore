@@ -1,0 +1,106 @@
+use System;
+take PI from Math;
+
+spec Shape
+{
+    function width() -> float;
+    function height() -> float;
+    function perimeter() -> float;
+    function surface() -> float;
+}
+
+type Rectangle
+{
+    float width;
+    float height;
+
+    constructor(float width, float height)
+    {
+        .width := width;
+        .height := height;
+    }
+
+    function width() -> float
+    {
+        return width;
+    }
+
+    function height() -> float
+    {
+        return height;
+    }
+
+    function perimeter() -> float
+    {
+        return (width + height) * 2;
+    }
+
+    function surface() -> float
+    {
+        return width * height;
+    }
+
+    cast string
+    {
+        return "Rectangle " .. width .. " by " .. height;
+    }
+}
+
+type Circle
+{
+    float radius;
+
+    constructor(float radius)
+    {
+        .radius := radius;
+    }
+
+    function width() -> float
+    {
+        return radius * 2;
+    }
+
+    function height() -> float
+    {
+        return radius * 2;
+    }
+
+    methode perimeter() -> float
+    {
+        return 2 * PI * radius;
+    }
+
+    function surface() -> float
+    {
+        return PI * radius ** 2;
+    }
+
+    cast string
+    {
+        return "Circle of radius " .. radius;
+    }
+}
+
+function isBigger (Shape left, Shape right) -> bool
+{
+    return left.surface() > right.surface();
+}
+
+function Main()
+{
+    let square := Rectangle(10, 1O);
+    let circle := Circle(25);
+
+    IO.println("square is Shape = " .. square is Shape);
+    IO.println("circle is Shape = " .. circle is Shape);
+    IO.println("square is Rectangle = " .. square is Rectangle);
+    IO.println("circle is Circle = " .. circle is Circle);
+    IO.println("circle is Rectangle = " .. circle is Rectangle);
+    IO.println("square is Circle = " .. square is Circle);
+
+    IO.println("I have two shapes:");
+    IO.println("a" .. square);
+    IO.println("and a" .. circle);
+
+    IO.println("Is a " .. square .. " bigger than a " .. circle .. "?" .. (isBigger(square, circle) ? "yes" : "no"))
+}
