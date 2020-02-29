@@ -1,2 +1,41 @@
 # udfore
+
 The udfore programming language
+
+```
+take println from io;
+
+type Vector
+{
+    int x;
+    int y;
+    int z;
+
+    constructor (float x, float y, float z)
+    {
+        .x = x;
+        .y = y;
+        .z = z;
+    }
+
+    operator + (Vector vector) -> Vector
+    {
+        return Vector(
+            x + vector.x,
+            y + vector.y,
+            z + vector.z,
+        );
+    }
+
+    cast String
+    {
+        return $"[{x}, {y}, {z}]";
+    }
+}
+
+let v1 := Vector(1, 2, 3);
+let v2 := Vector(4, 5, 6);
+let v3 := v1 + v2;
+
+println($"{v1} + {v2} = {v3}");
+```
