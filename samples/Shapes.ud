@@ -1,4 +1,4 @@
-use System;
+take println from io;
 take PI from Math;
 
 spec Shape
@@ -81,23 +81,23 @@ type Circle
 function is_bigger (Shape left, Shape right) -> bool
 {
     return left.surface() > right.surface();
-}̣
+}
 
 function main()
 {
     let square := Rectangle(10, 1O);
     let circle := Circle(25);
 
-    IO.println("square is Shape = " .. square is Shape);
-    IO.println("circle is Shape = " .. circle is Shape);
-    IO.println("square is Rectangle = " .. square is Rectangle);
-    IO.println("circle is Circle = " .. circle is Circle);
-    IO.println("circle is Rectangle = " .. circle is Rectangle);
-    IO.println("square is Circle = " .. square is Circle);
+    println("square is Shape = " .. square is Shape);
+    println("circle is Shape = " .. circle is Shape);
+    println("square is Rectangle = " .. square is Rectangle);
+    println("circle is Circle = " .. circle is Circle);
+    println("circle is Rectangle = " .. circle is Rectangle);
+    println("square is Circle = " .. square is Circle);
 
-    IO.println("I have two shapes:");
-    IO.println("a" .. square);
-    IO.println("and a" .. circle);
+    println("I have two shapes:");
+    println("a" .. square);
+    println("and a" .. circle);
 
-    IO.println("Is a " .. square .. " bigger than a " .. circle .. "?" .. (isBigger(square, circle) ? "yes" : "no"))
+    println("Is a " .. square .. " bigger than a " .. circle .. "?" .. (isBigger(square, circle) ? "yes" : "no"))
 }

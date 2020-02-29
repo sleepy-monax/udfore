@@ -1,6 +1,6 @@
-use System;
+take println from io;
 
-function main()
+main
 {
-    IO.Print("Hello, world!");
-};
+    println("Hello, World!");
+}
