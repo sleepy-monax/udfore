@@ -111,6 +111,8 @@ typedef struct
 token_literal_to_type_t token_operators[] = {
     {"=", TOKEN_EQUAL},
     {"!=", TOKEN_NOTEQUAL},
+    {">", TOKEN_BIGGER_THAN},
+    {"<", TOKEN_LESS_THAN},
     {":=", TOKEN_ASSIGN},
     {"+", TOKEN_PLUS},
     {"++", TOKEN_PLUSPLUS},
@@ -122,6 +124,7 @@ token_literal_to_type_t token_operators[] = {
 
     {".", TOKEN_DOT},
     {"..", TOKEN_DOTDOT},
+    {"->", TOKEN_ARROW},
 
     {"(", TOKEN_LPARENT},
     {")", TOKEN_RPARENT},
@@ -131,6 +134,9 @@ token_literal_to_type_t token_operators[] = {
     {"]", TOKEN_RBRACKET},
     {",", TOKEN_COMMA},
     {";", TOKEN_SEMICOLON},
+
+    {"?", TOKEN_QUESTION},
+    {":", TOKEN_COLON},
     {NULL, -1},
 };
 
@@ -144,17 +150,17 @@ bool lexer_read_operator(Lexer *lexer, Token *current_token)
 
         if (op->literal[0] == lexer_current_char(lexer))
         {
-            if (op->literal[1] == '\0')
-            {
-                matching = op;
-            }
-            else if (op->literal[1] == lexer_peek_char(lexer))
+            if (op->literal[1] == lexer_peek_char(lexer))
             {
                 lexer_next_char(lexer);
                 current_token->type = op->type;
                 token_append(current_token, lexer_current_char(lexer));
 
                 return true;
+            }
+            else if (op->literal[1] == '\0')
+            {
+                matching = op;
             }
         }
     }
@@ -169,20 +175,29 @@ bool lexer_read_operator(Lexer *lexer, Token *current_token)
 }
 
 token_literal_to_type_t token_keywords[] = {
-    {"use", TOKEN_USE},
-    {"module", TOKEN_MODULE},
+    {"cast", TOKEN_CAST},
+    {"constructor", TOKEN_CONSTRUCTOR},
+    {"destructor", TOKEN_DESTRUCTOR},
+    {"from", TOKEN_FROM},
     {"function", TOKEN_FUNCTION},
+    {"let", TOKEN_LET},
+    {"module", TOKEN_MODULE},
+    {"return", TOKEN_RETURN},
+    {"spec", TOKEN_SPEC},
+    {"take", TOKEN_TAKE},
+    {"type", TOKEN_TYPE},
+    {"use", TOKEN_USE},
     {NULL, -1},
 };
 
 bool lexer_read_identifier_or_keyword(Lexer *lexer, Token *current_token)
 {
-    if (!utils_is_letter(lexer_current_char(lexer)))
+    if (!utils_is_identifier(lexer_current_char(lexer)))
     {
         return false;
     }
 
-    while (utils_is_letter(lexer_peek_char(lexer)))
+    while (utils_is_identifier(lexer_peek_char(lexer)))
     {
         lexer_next_char(lexer);
         token_append(current_token, lexer_current_char(lexer));

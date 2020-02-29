@@ -8,6 +8,8 @@
     /* Operators */               \
     __ENTRY(TOKEN_EQUAL)          \
     __ENTRY(TOKEN_NOTEQUAL)       \
+    __ENTRY(TOKEN_BIGGER_THAN)    \
+    __ENTRY(TOKEN_LESS_THAN)      \
     __ENTRY(TOKEN_ASSIGN)         \
     __ENTRY(TOKEN_PLUS)           \
     __ENTRY(TOKEN_PLUSPLUS)       \
@@ -19,6 +21,7 @@
                                   \
     __ENTRY(TOKEN_DOT)            \
     __ENTRY(TOKEN_DOTDOT)         \
+    __ENTRY(TOKEN_ARROW)          \
                                   \
     /* Literals */                \
     __ENTRY(TOKEN_NUMBER)         \
@@ -34,11 +37,22 @@
     __ENTRY(TOKEN_RBRACKET)       \
     __ENTRY(TOKEN_COMMA)          \
     __ENTRY(TOKEN_SEMICOLON)      \
+    __ENTRY(TOKEN_QUESTION)       \
+    __ENTRY(TOKEN_COLON)          \
                                   \
     /* Keywords */                \
-    __ENTRY(TOKEN_USE)            \
-    __ENTRY(TOKEN_MODULE)         \
+    __ENTRY(TOKEN_CAST)           \
+    __ENTRY(TOKEN_CONSTRUCTOR)    \
+    __ENTRY(TOKEN_DESTRUCTOR)     \
+    __ENTRY(TOKEN_FROM)           \
     __ENTRY(TOKEN_FUNCTION)       \
+    __ENTRY(TOKEN_LET)            \
+    __ENTRY(TOKEN_MODULE)         \
+    __ENTRY(TOKEN_RETURN)         \
+    __ENTRY(TOKEN_SPEC)           \
+    __ENTRY(TOKEN_TAKE)           \
+    __ENTRY(TOKEN_TYPE)           \
+    __ENTRY(TOKEN_USE)            \
                                   \
     __ENTRY(TOKEN_EOF)
 

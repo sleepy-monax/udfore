@@ -12,4 +12,6 @@ bool utils_is_white_space(char chr);
 
 bool utils_is_letter(char chr);
 
+bool utils_is_identifier(char chr);
+
 bool utils_is_number(char chr);
