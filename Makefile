@@ -16,7 +16,7 @@ CFLAGS := -g \
 		 -fsanitize=address \
 		 -fsanitize=undefined
 
-.PHONY: all clean test $(TESTS:.c=.run)
+.PHONY: all clean test
 
 all: $(PROJECT).out
 
