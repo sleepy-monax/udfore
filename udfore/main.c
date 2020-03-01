@@ -1,4 +1,5 @@
 #include "udfore/lexer/Lexer.h"
+#include "udfore/parser/Parser.h"
 #include "udfore/source/Source.h"
 #include "udfore/utils/Logger.h"
 
@@ -8,18 +9,22 @@ int main(int argc, char const *argv[])
 
     if (argc > 1)
     {
-        Source *src = file_source_create(argv[1]);
-        Lexer *lex = lexer_create(src);
+        Source *source = file_source_create(argv[1]);
+        Lexer *lexer = lexer_create(source);
+        Parser *parser = parser_create(lexer);
 
-        while (!lexer_is_EOF(lex))
-        {
-            Token *tok = lexer_next_token(lex);
+        ASTProgram *program = parser_parse(parser);
 
-            token_destroy(tok);
-        }
+        parser_destroy(parser);
+        lexer_destroy(lexer);
+        source_destroy(source);
 
-        lexer_destroy(lex);
-        source_destroy(src);
+        char *output = astnode_serialize(ASTNODE(program));
+
+        printf("%s", output);
+
+        free(output);
+        astnode_destroy(ASTNODE(program));
     }
 
     return 0;

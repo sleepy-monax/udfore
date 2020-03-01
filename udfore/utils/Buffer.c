@@ -21,7 +21,7 @@ void buffer_destroy(Buffer *buffer)
     free(buffer);
 }
 
-const char *buffer_finalize(Buffer *buffer)
+char *buffer_finalize(Buffer *buffer)
 {
     char *result = buffer->buffer;
     buffer->buffer = NULL;

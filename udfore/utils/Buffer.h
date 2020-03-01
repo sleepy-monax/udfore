@@ -13,7 +13,7 @@ Buffer *buffer_create(size_t preallocated);
 
 void buffer_destroy(Buffer *buffer);
 
-const char *buffer_finalize(Buffer *buffer);
+char *buffer_finalize(Buffer *buffer);
 
 void buffer_append_str(Buffer *buffer, const char *str);
 
