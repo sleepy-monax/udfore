@@ -38,8 +38,8 @@ bool parser_expect(Parser *parser, TokenType expected)
         "Unexpected token, expected %s but got %s at line %d column %d",
         token_type_as_string(expected),
         token_as_string(token),
-        token->line,
-        token->column);
+        token->location.line,
+        token->location.column);
 
     return false;
 }

@@ -4,14 +4,13 @@
 #include "udfore/token/Token.h"
 #include "udfore/utils/Utils.h"
 
-Token *token_create(TokenType type, int line, int column, char c)
+Token *token_create(TokenType type, SourceLocation location, char c)
 {
     Token *token = malloc(sizeof(Token));
 
     token->type = type;
 
-    token->line = line;
-    token->column = column;
+    token->location = location;
 
     token->lenght = 1;
 

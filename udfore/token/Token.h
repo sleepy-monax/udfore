@@ -1,5 +1,6 @@
 #pragma once
 
+#include "udfore/source/SourceLocation.h"
 #include "udfore/utils/Utils.h"
 
 #define TOKEN_TYPES_LIST(__ENTRY) \
@@ -67,14 +68,13 @@ typedef struct
 {
     TokenType type;
 
-    int line;
-    int column;
+    SourceLocation location;
 
     int lenght;
     char *chr;
 } Token;
 
-Token *token_create(TokenType type, int line, int column, char c);
+Token *token_create(TokenType type, SourceLocation location, char c);
 
 void token_destroy(Token *token);
 

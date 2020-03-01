@@ -1,14 +1,14 @@
 #pragma once
 
 #include "udfore/source/Source.h"
+#include "udfore/source/SourceLocation.h"
 #include "udfore/token/Token.h"
 
 typedef struct
 {
     Source *source;
 
-    int current_line;
-    int current_column;
+    SourceLocation current;
 } Lexer;
 
 Lexer *lexer_create(Source *source);

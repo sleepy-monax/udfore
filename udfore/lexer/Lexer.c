@@ -8,8 +8,8 @@ Lexer *lexer_create(Source *source)
     Lexer *lexer = __create(Lexer);
 
     lexer->source = source;
-    lexer->current_line = 1;
-    lexer->current_column = 1;
+    lexer->current.line = 1;
+    lexer->current.column = 1;
 
     return lexer;
 }
@@ -30,12 +30,12 @@ void lexer_next_char(Lexer *lexer)
 
     if (source_current_char(lexer->source) == '\n')
     {
-        lexer->current_line++;
-        lexer->current_column = 1;
+        lexer->current.line++;
+        lexer->current.column = 1;
     }
     else
     {
-        lexer->current_column++;
+        lexer->current.column++;
     }
 }
 
@@ -220,18 +220,18 @@ Token *lexer_next_token(Lexer *lexer)
 {
     lexer_eat_white_space(lexer);
 
-    Token *tok = token_create(TOKEN_ILLEGAL, lexer->current_line, lexer->current_column, lexer_current_char(lexer));
+    Token *tok = token_create(TOKEN_ILLEGAL, lexer->current, lexer_current_char(lexer));
 
     if (!(lexer_read_operator(lexer, tok) ||
           lexer_read_number(lexer, tok) ||
           lexer_read_string(lexer, tok) ||
           lexer_read_identifier_or_keyword(lexer, tok)))
     {
-        logger_warn("lexer_next_token got an illegale token: ln%d, col%d \"%s\"", tok->line, tok->column, tok->chr);
+        logger_warn("lexer_next_token got an illegale token: ln%d, col%d \"%s\"", tok->location.line, tok->location.column, tok->chr);
     }
 
     lexer_next_char(lexer);
-    //logger_trace("lexer_next_token return ln%d, col%d %s: \"%s\"", tok->line, tok->column, token_as_string(tok), tok->chr);
+    logger_trace("lexer_next_token return ln%d, col%d %s: \"%s\"", tok->location.line, tok->location.column, token_as_string(tok), tok->chr);
 
     return tok;
 }
