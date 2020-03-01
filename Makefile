@@ -1,7 +1,7 @@
 PROJECT=udfore
 
 TESTS := $(wildcard $(PROJECT)/tests/*.test.c)
-SOURCES := $(filter-out $(wildcard $(PROJECT)/tests/*.test.c), $(wildcard $(PROJECT)/*/*.c))
+SOURCES := $(filter-out $(wildcard $(PROJECT)/tests/*.test.c), $(wildcard $(PROJECT)/*/*.c) $(wildcard $(PROJECT)/*/*/*.c))
 OBJECTS := $(SOURCES:.c=.o)
 
 CC := gcc
@@ -14,7 +14,8 @@ CFLAGS := -g \
 		 -Wextra \
 		 -Werror \
 		 -fsanitize=address \
-		 -fsanitize=undefined
+		 -fsanitize=undefined \
+		 -D_XOPEN_SOURCE=500
 
 .PHONY: all clean test
 

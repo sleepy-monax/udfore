@@ -1,6 +1,8 @@
-#include "udfore/parser/Parser.h"
+#include <string.h>
+
 #include "udfore/ast/Expression.h"
 #include "udfore/ast/Statement.h"
+#include "udfore/parser/Parser.h"
 #include "udfore/token/Token.h"
 #include "udfore/utils/Logger.h"
 
@@ -25,7 +27,7 @@ bool parser_next_is(Parser *parser, TokenType expected)
     return parser->next->type == expected;
 }
 
-bool parser_expect(Parser *parser, TokenType expected)
+bool parser_expect_next(Parser *parser, TokenType expected)
 {
     Token *token = parser_next(parser);
 
@@ -53,9 +55,41 @@ ASTExpression *parser_parse_expression(Parser *parser)
 
 ASTStatement *parser_parse_statement(Parser *parser)
 {
-    (void)parser;
+    switch (parser_current(parser)->type)
+    {
+    case TOKEN_LET:
+    {
+        if (!parser_expect_next(parser, TOKEN_IDENTIFIER))
+        {
+            return NULL;
+        }
 
-    return NULL;
+        parser_advance(parser); // skip the let keyword
+
+        char *identifier = strdup(parser_current(parser)->chr);
+
+        if (!parser_expect_next(parser, TOKEN_ASSIGN))
+        {
+            free(identifier);
+
+            return NULL;
+        }
+
+        parser_advance(parser); // skip the identifier
+        parser_advance(parser); // skip the assign operator
+
+        return letstatement_create(identifier, parser_parse_expression(parser));
+    }
+    case TOKEN_RETURN:
+    {
+        parser_advance(parser); // skip the return keyword
+
+        return returnstatement_create(parser_parse_expression(parser));
+    }
+
+    default:
+        return NULL;
+    }
 }
 
 ASTProgram *parser_parse(Parser *parser)
