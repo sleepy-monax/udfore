@@ -125,8 +125,20 @@ int main(int argc, char const *argv[])
         TOKEN_COLON,
         TOKEN_EOF,
     };
+
     test_lexer_expect_from_file("./tests/operators.ud", expected_operators);
     test_lexer_expect_from_string("= != > < := + ++ - -- * % / . .. -> ( ) { } [ ] , ; ? :", expected_operators);
+
+    TokenType expected_identifier[] = {
+        TOKEN_IDENTIFIER,
+        TOKEN_IDENTIFIER,
+        TOKEN_IDENTIFIER,
+        TOKEN_IDENTIFIER,
+        TOKEN_NUMBER,
+        TOKEN_EOF,
+    };
+
+    test_lexer_expect_from_string("_abc123 _abc abc_ a_bc 1234", expected_identifier);
 
     return 0;
 }
