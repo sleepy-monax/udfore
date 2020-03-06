@@ -2,6 +2,11 @@
 
 void astnode_destroy(ASTNode *node)
 {
+    if (!node)
+    {
+        return;
+    }
+
     if (node->destroy)
     {
         node->destroy(node);

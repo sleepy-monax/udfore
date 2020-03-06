@@ -86,7 +86,11 @@ ASTStatement *parser_parse_statement(Parser *parser)
 
         return returnstatement_create(parser_parse_expression(parser));
     }
+    case TOKEN_LBRACE:
+    {
+        parser_advance(parser); //skift the lbrace
 
+    }
     default:
         return NULL;
     }

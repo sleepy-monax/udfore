@@ -33,9 +33,16 @@ char *buffer_finalize(Buffer *buffer)
 
 void buffer_append_str(Buffer *buffer, const char *str)
 {
-    for (size_t i = 0; str[i]; i++)
+    if (str)
     {
-        buffer_append_chr(buffer, str[i]);
+        for (size_t i = 0; str[i]; i++)
+        {
+            buffer_append_chr(buffer, str[i]);
+        }
+    }
+    else
+    {
+        buffer_append_str(buffer, "<null>");
     }
 }
 
