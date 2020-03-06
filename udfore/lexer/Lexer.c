@@ -197,7 +197,8 @@ bool lexer_read_identifier_or_keyword(Lexer *lexer, Token *current_token)
         return false;
     }
 
-    while (utils_is_identifier(lexer_peek_char(lexer)))
+    while (utils_is_identifier(lexer_peek_char(lexer)) ||
+           utils_is_number(lexer_peek_char(lexer)))
     {
         lexer_next_char(lexer);
         token_append(current_token, lexer_current_char(lexer));
