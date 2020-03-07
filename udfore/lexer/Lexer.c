@@ -228,7 +228,14 @@ Token *lexer_next_token(Lexer *lexer)
           lexer_read_string(lexer, tok) ||
           lexer_read_identifier_or_keyword(lexer, tok)))
     {
-        logger_warn("lexer_next_token got an illegale token: ln%d, col%d \"%s\"", tok->location.line, tok->location.column, tok->chr);
+        if (lexer_is_EOF(lexer))
+        {
+            tok->type = TOKEN_EOF;
+        }
+        else
+        {
+            logger_warn("lexer_next_token got an illegale token: ln%d, col%d \"%s\"", tok->location.line, tok->location.column, tok->chr);
+        }
     }
 
     lexer_next_char(lexer);

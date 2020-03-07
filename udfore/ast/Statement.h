@@ -9,6 +9,8 @@ typedef struct ASTStatement
     ASTNode node;
 } ASTStatement;
 
+#define ASTSTATEMENT(__subclass) ((ASTStatement *)(__subclass))
+
 typedef struct
 {
     ASTStatement statement;
@@ -34,6 +36,10 @@ typedef struct
 
     List *statements;
 } ASTBlockStatement;
+
+ASTBlockStatement *blockstatement_create(void);
+
+void blockstatement_appent_statement(ASTBlockStatement *blockstatement, ASTStatement *statement);
 
 typedef struct
 {

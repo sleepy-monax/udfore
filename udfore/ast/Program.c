@@ -16,7 +16,7 @@ void astprogram_serialize(ASTProgram *program, Buffer *buffer)
     list_foreach(struct ASTStatement, statement, program->statements)
     {
         astnode_serialize_continue(ASTNODE(statement), buffer);
-        buffer_append_str(buffer, ";\n");
+        buffer_append_str(buffer, "; ");
     }
 }
 

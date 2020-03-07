@@ -99,5 +99,5 @@ function main()
     println("a" .. square);
     println("and a" .. circle);
 
-    println("Is a " .. square .. " bigger than a " .. circle .. "?" .. (isBigger(square, circle) ? "yes" : "no"))
+    println("Is a " .. square .. " bigger than a " .. circle .. "?" .. (isBigger(square, circle) ? "yes" : "no"));
 }

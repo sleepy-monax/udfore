@@ -27,13 +27,43 @@ bool parser_next_is(Parser *parser, TokenType expected)
     return parser->next->type == expected;
 }
 
-bool parser_expect_next(Parser *parser, TokenType expected)
+bool parser_current_is(Parser *parser, TokenType expected)
+{
+    return parser->current->type == expected;
+}
+
+bool parser_expect_next(Parser *parser, TokenType *expected)
 {
     Token *token = parser_next(parser);
 
-    if (token->type == expected)
+    for (size_t i = 0; expected[i]; i++)
     {
-        return true;
+        if (token->type == expected[i])
+        {
+            return true;
+        }
+    }
+
+    logger_error(
+        "Unexpected token, expected %s but got %s at line %d column %d",
+        token_type_as_string(expected),
+        token_as_string(token),
+        token->location.line,
+        token->location.column);
+
+    return false;
+}
+
+bool parser_expect_current(Parser *parser, TokenType *expected)
+{
+    Token *token = parser_current(parser);
+
+    for (size_t i = 0; expected[i]; i++)
+    {
+        if (token->type == expected[i])
+        {
+            return true;
+        }
     }
 
     logger_error(
@@ -48,7 +78,10 @@ bool parser_expect_next(Parser *parser, TokenType expected)
 
 ASTExpression *parser_parse_expression(Parser *parser)
 {
-    (void)parser;
+    while (!parser_peek_is(parser, TOKEN_SEMICOLON))
+    {
+        parser_advance(parser);
+    }
 
     return NULL;
 }
@@ -59,7 +92,7 @@ ASTStatement *parser_parse_statement(Parser *parser)
     {
     case TOKEN_LET:
     {
-        if (!parser_expect_next(parser, TOKEN_IDENTIFIER))
+        if (!parser_expect_next(parser, (TokenType[]){TOKEN_IDENTIFIER, 0}))
         {
             return NULL;
         }
@@ -68,7 +101,7 @@ ASTStatement *parser_parse_statement(Parser *parser)
 
         char *identifier = strdup(parser_current(parser)->chr);
 
-        if (!parser_expect_next(parser, TOKEN_ASSIGN))
+        if (!parser_expect_next(parser, (TokenType[]){TOKEN_ASSIGN, 0}))
         {
             free(identifier);
 
@@ -88,8 +121,23 @@ ASTStatement *parser_parse_statement(Parser *parser)
     }
     case TOKEN_LBRACE:
     {
-        parser_advance(parser); //skift the lbrace
+        parser_advance(parser); //skip the lbrace
 
+        ASTBlockStatement *block_statement = blockstatement_create();
+
+        while (!parser_current_is(parser, TOKEN_RBRACE) && !parser_current_is(parser, TOKEN_EOF))
+        {
+            ASTStatement *inner_statement = parser_parse_statement(parser);
+
+            if (inner_statement)
+            {
+                blockstatement_appent_statement(block_statement, inner_statement);
+            }
+
+            parser_advance(parser);
+        }
+
+        return ASTSTATEMENT(block_statement);
     }
     default:
         return NULL;
@@ -100,7 +148,7 @@ ASTProgram *parser_parse(Parser *parser)
 {
     ASTProgram *program = astprogram_create();
 
-    while (!lexer_is_EOF(parser->lexer))
+    while (!parser_current_is(parser, TOKEN_EOF))
     {
         ASTStatement *statement = parser_parse_statement(parser);
 
@@ -109,7 +157,7 @@ ASTProgram *parser_parse(Parser *parser)
             astprogram_append_statement(program, statement);
         }
 
-        parser_advance(parser);
+        parser_advance(parser); // skip rbrace
     }
 
     return program;
