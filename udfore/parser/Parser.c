@@ -45,8 +45,7 @@ bool parser_expect_next(Parser *parser, TokenType *expected)
     }
 
     logger_error(
-        "Unexpected token, expected %s but got %s at line %d column %d",
-        token_type_as_string(expected),
+        "Unexpected token %s at line %d column %d",
         token_as_string(token),
         token->location.line,
         token->location.column);
@@ -67,8 +66,7 @@ bool parser_expect_current(Parser *parser, TokenType *expected)
     }
 
     logger_error(
-        "Unexpected token, expected %s but got %s at line %d column %d",
-        token_type_as_string(expected),
+        "Unexpected token %s at line %d column %d",
         token_as_string(token),
         token->location.line,
         token->location.column);
@@ -78,7 +76,7 @@ bool parser_expect_current(Parser *parser, TokenType *expected)
 
 ASTExpression *parser_parse_expression(Parser *parser)
 {
-    while (!parser_peek_is(parser, TOKEN_SEMICOLON))
+    while (!parser_next_is(parser, TOKEN_SEMICOLON))
     {
         parser_advance(parser);
     }
