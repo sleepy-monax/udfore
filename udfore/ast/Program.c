@@ -13,11 +13,13 @@ void astprogram_destroy(ASTProgram *program)
 
 void astprogram_serialize(ASTProgram *program, Buffer *buffer)
 {
+    buffer_append_str(buffer, "(program");
     list_foreach(struct ASTStatement, statement, program->statements)
     {
+        buffer_append_str(buffer, " ");
         astnode_serialize_continue(ASTNODE(statement), buffer);
-        buffer_append_str(buffer, "; ");
     }
+    buffer_append_str(buffer, ")");
 }
 
 ASTProgram *astprogram_create(void)

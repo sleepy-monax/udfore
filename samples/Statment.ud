@@ -1,0 +1,10 @@
+let v1 := ;
+let v2 := ;
+let v3 := ;
+
+println(`{v1} + {v2} = {v3}`);
+
+if (pomme == poire)
+{
+    print lol;
+}

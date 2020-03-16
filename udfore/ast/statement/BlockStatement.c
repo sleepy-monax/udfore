@@ -8,15 +8,15 @@ void blockstatement_destroy(ASTBlockStatement *statement)
 
 void blockstatement_serialize(ASTBlockStatement *statement, Buffer *buffer)
 {
-    buffer_append_str(buffer, "{");
+    buffer_append_str(buffer, "(block ");
 
     list_foreach(struct ASTStatement, statement, statement->statements)
     {
         astnode_serialize_continue(ASTNODE(statement), buffer);
-        buffer_append_str(buffer, "; ");
+        buffer_append_str(buffer, ", ");
     }
 
-    buffer_append_str(buffer, "}");
+    buffer_append_str(buffer, ")");
 }
 
 void blockstatement_appent_statement(ASTBlockStatement *block_statement, ASTStatement *statement)

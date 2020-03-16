@@ -28,14 +28,17 @@ void lexer_next_char(Lexer *lexer)
 {
     source_next_char(lexer->source);
 
-    if (source_current_char(lexer->source) == '\n')
+    if (!source_is_EOF(lexer->source))
     {
-        lexer->current.line++;
-        lexer->current.column = 1;
-    }
-    else
-    {
-        lexer->current.column++;
+        if (source_current_char(lexer->source) == '\n')
+        {
+            lexer->current.line++;
+            lexer->current.column = 1;
+        }
+        else
+        {
+            lexer->current.column++;
+        }
     }
 }
 

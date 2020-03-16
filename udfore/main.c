@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
         Lexer *lexer = lexer_create(source);
         Parser *parser = parser_create(lexer);
 
-        ASTProgram *program = parser_parse(parser);
+        ASTProgram *program = parser_parse_program(parser);
 
         parser_destroy(parser);
         lexer_destroy(lexer);

@@ -9,11 +9,12 @@ void returnstatement_destroy(ASTReturnStatement *statement)
 
 void returnstatement_serialize(ASTReturnStatement *statement, Buffer *buffer)
 {
-    buffer_append_str(buffer, "return ");
+    buffer_append_str(buffer, "(return ");
     astnode_serialize_continue(ASTNODE(statement->expression), buffer);
+    buffer_append_str(buffer, ")");
 }
 
-ASTStatement *returnstatement_create(ASTExpression *expression)
+ASTReturnStatement *returnstatement_create(ASTExpression *expression)
 {
     ASTReturnStatement *statement = __create(ASTReturnStatement);
 
@@ -22,5 +23,5 @@ ASTStatement *returnstatement_create(ASTExpression *expression)
     ASTNODE(statement)->destroy = (ASTNodeDestroyCallback)returnstatement_destroy;
     ASTNODE(statement)->serialize = (ASTNodeSerializeCallback)returnstatement_serialize;
 
-    return (ASTStatement *)statement;
+    return statement;
 }

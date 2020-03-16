@@ -19,7 +19,7 @@ typedef struct
     ASTExpression *expression;
 } ASTLetStatement;
 
-ASTStatement *letstatement_create(char *identifier, ASTExpression *expression);
+ASTLetStatement *letstatement_create(char *identifier, ASTExpression *expression);
 
 typedef struct
 {
@@ -28,7 +28,7 @@ typedef struct
     ASTExpression *expression;
 } ASTReturnStatement;
 
-ASTStatement *returnstatement_create(ASTExpression *expression);
+ASTReturnStatement *returnstatement_create(ASTExpression *expression);
 
 typedef struct
 {
@@ -47,3 +47,5 @@ typedef struct
 
     ASTExpression *expression;
 } ASTExpressionStatement;
+
+ASTExpressionStatement *expressionstatement_create(ASTExpression *expression);
