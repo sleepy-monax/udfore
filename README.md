@@ -1,6 +1,4 @@
-# udfore
-
-The udfore programming language
+![udfore](udfore.svg)
 
 ```
 take println from io;
@@ -29,7 +27,7 @@ type Vector
 
     cast String
     {
-        return $"[{x}, {y}, {z}]";
+        return `[{x}, {y}, {z}]`;
     }
 }
 
@@ -37,5 +35,5 @@ let v1 := Vector(1, 2, 3);
 let v2 := Vector(4, 5, 6);
 let v3 := v1 + v2;
 
-println($"{v1} + {v2} = {v3}");
+println(`{v1} + {v2} = {v3}`);
 ```
