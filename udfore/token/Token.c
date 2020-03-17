@@ -30,6 +30,16 @@ void token_destroy(Token *token)
     free(token);
 }
 
+Token *token_append(Token *token, char c)
+{
+    token->chr = realloc(token->chr, token->lenght + 2);
+    token->lenght = token->lenght + 1;
+    token->chr[token->lenght - 1] = c;
+    token->chr[token->lenght] = '\0';
+
+    return token;
+}
+
 static const char *token_type_string[] = {
 #define TOKEN_TYPE_STRING_ENTRY(__entry) #__entry,
     TOKEN_TYPES_LIST(TOKEN_TYPE_STRING_ENTRY)};
@@ -47,12 +57,3 @@ const char *token_type_as_string(TokenType type)
     return token_type_string[type];
 }
 
-Token *token_append(Token *token, char c)
-{
-    token->chr = realloc(token->chr, token->lenght + 2);
-    token->lenght = token->lenght + 1;
-    token->chr[token->lenght - 1] = c;
-    token->chr[token->lenght] = '\0';
-
-    return token;
-}

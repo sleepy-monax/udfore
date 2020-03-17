@@ -57,12 +57,13 @@
                                   \
     __ENTRY(TOKEN_EOF)
 
+#define TOKEN_TYPE_ENUM_ENTRY(__entry) __entry,
 typedef enum
 {
-#define TOKEN_TYPE_ENUM_ENTRY(__entry) __entry,
     TOKEN_TYPES_LIST(TOKEN_TYPE_ENUM_ENTRY)
         __TOKEN_TYPE_COUNT,
 } TokenType;
+#undef TOKEN_TYPE_ENUM_ENTRY
 
 typedef struct
 {
@@ -74,6 +75,12 @@ typedef struct
     char *chr;
 } Token;
 
+typedef struct
+{
+    const char *literal;
+    TokenType type;
+} TokenLiteralToType;
+
 Token *token_create(TokenType type, SourceLocation location, char c);
 
 void token_destroy(Token *token);
@@ -83,3 +90,13 @@ Token *token_append(Token *token, char c);
 const char *token_as_string(Token *token);
 
 const char *token_type_as_string(TokenType type);
+
+bool token_literal_is_keyword(const char *literal);
+
+bool token_literal_is_operator(const char *literal);
+
+TokenType keyword_literal_to_token_type(const char *literal);
+
+TokenType operator_literal_to_token_type(const char *literal);
+
+const char *operator_token_type_to_literal(TokenType type);

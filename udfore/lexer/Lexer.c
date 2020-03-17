@@ -1,5 +1,3 @@
-#include <string.h>
-
 #include "udfore/lexer/Lexer.h"
 #include "udfore/utils/Logger.h"
 
@@ -105,93 +103,38 @@ bool lexer_read_string(Lexer *lexer, Token *current_token)
     return true;
 }
 
-typedef struct
-{
-    const char *literal;
-    TokenType type;
-} token_literal_to_type_t;
-
-token_literal_to_type_t token_operators[] = {
-    {"=", TOKEN_EQUAL},
-    {"!=", TOKEN_NOTEQUAL},
-    {">", TOKEN_BIGGER_THAN},
-    {"<", TOKEN_LESS_THAN},
-    {":=", TOKEN_ASSIGN},
-    {"+", TOKEN_PLUS},
-    {"++", TOKEN_PLUSPLUS},
-    {"-", TOKEN_MINUS},
-    {"--", TOKEN_MINUSMINUS},
-    {"*", TOKEN_MULT},
-    {"%", TOKEN_MOD},
-    {"/", TOKEN_DIV},
-
-    {".", TOKEN_DOT},
-    {"..", TOKEN_DOTDOT},
-    {"->", TOKEN_ARROW},
-
-    {"(", TOKEN_LPARENT},
-    {")", TOKEN_RPARENT},
-    {"{", TOKEN_LBRACE},
-    {"}", TOKEN_RBRACE},
-    {"[", TOKEN_LBRACKET},
-    {"]", TOKEN_RBRACKET},
-    {",", TOKEN_COMMA},
-    {";", TOKEN_SEMICOLON},
-
-    {"?", TOKEN_QUESTION},
-    {":", TOKEN_COLON},
-    {NULL, -1},
-};
-
 bool lexer_read_operator(Lexer *lexer, Token *current_token)
 {
-    token_literal_to_type_t *matching = NULL;
+    char literal1[] = {
+        lexer_current_char(lexer),
+        '\0',
+    };
 
-    for (size_t i = 0; token_operators[i].literal != NULL; i++)
+    char literal2[] = {
+        lexer_current_char(lexer),
+        lexer_peek_char(lexer),
+        '\0',
+    };
+
+    if (token_literal_is_operator(literal2))
     {
-        token_literal_to_type_t *op = &token_operators[i];
+        lexer_next_char(lexer);
+        token_append(current_token, lexer_current_char(lexer));
 
-        if (op->literal[0] == lexer_current_char(lexer))
-        {
-            if (op->literal[1] == lexer_peek_char(lexer))
-            {
-                lexer_next_char(lexer);
-                current_token->type = op->type;
-                token_append(current_token, lexer_current_char(lexer));
+        current_token->type = operator_literal_to_token_type(literal2);
 
-                return true;
-            }
-            else if (op->literal[1] == '\0')
-            {
-                matching = op;
-            }
-        }
+        return true;
     }
 
-    if (matching != NULL)
+    if (token_literal_is_operator(literal1))
     {
-        current_token->type = matching->type;
+        current_token->type = operator_literal_to_token_type(literal1);
+
         return true;
     }
 
     return false;
 }
-
-token_literal_to_type_t token_keywords[] = {
-    {"cast", TOKEN_CAST},
-    {"constructor", TOKEN_CONSTRUCTOR},
-    {"destructor", TOKEN_DESTRUCTOR},
-    {"from", TOKEN_FROM},
-    {"function", TOKEN_FUNCTION},
-    {"let", TOKEN_LET},
-    {"module", TOKEN_MODULE},
-    {"return", TOKEN_RETURN},
-    {"spec", TOKEN_SPEC},
-    {"take", TOKEN_TAKE},
-    {"type", TOKEN_TYPE},
-    {"use", TOKEN_USE},
-    {NULL, -1},
-};
 
 bool lexer_read_identifier_or_keyword(Lexer *lexer, Token *current_token)
 {
@@ -209,12 +152,9 @@ bool lexer_read_identifier_or_keyword(Lexer *lexer, Token *current_token)
 
     current_token->type = TOKEN_IDENTIFIER;
 
-    for (size_t i = 0; token_keywords[i].literal != NULL; i++)
+    if (token_literal_is_keyword(current_token->chr))
     {
-        if (strcmp(token_keywords[i].literal, current_token->chr) == 0)
-        {
-            current_token->type = token_keywords[i].type;
-        }
+        current_token->type = keyword_literal_to_token_type(current_token->chr);
     }
 
     return true;
