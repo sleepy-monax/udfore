@@ -242,7 +242,7 @@ Token *lexer_next_token(Lexer *lexer)
     }
 
     lexer_next_char(lexer);
-    logger_trace("lexer_next_token return ln%d, col%d %s: \"%s\"", tok->location.line, tok->location.column, token_as_string(tok), tok->chr);
+    // logger_trace("lexer_next_token return ln%d, col%d %s: \"%s\"", tok->location.line, tok->location.column, token_as_string(tok), tok->chr);
 
     return tok;
 }

@@ -24,14 +24,22 @@ typedef enum
     PRECEDENCE_PREFIX,      // -X or !X
     PRECEDENCE_CALL,        // myFunction(X)
     PRECEDENCE_INDEX,       // array[index], map[key]
-} OperatorPrecedence;
+} ExpressionPrecedence;
 
 typedef struct
 {
     TokenType token;
-    OperatorPrecedence precedance;
+    ExpressionPrecedence precedence;
 
     ParserPrefixCallback prefix;
     ParserInfixCallback infix;
     ParserPostfixCallback postfix;
 } ExpressionParserCallback;
+
+ParserPrefixCallback parser_get_prefix_callback(TokenType type);
+
+ParserInfixCallback parser_get_infix_callback(TokenType type);
+
+ParserPostfixCallback parser_get_postfix_callback(TokenType type);
+
+ExpressionPrecedence parser_get_precedence(TokenType type);

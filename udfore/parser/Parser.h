@@ -4,6 +4,7 @@
 #include "udfore/ast/Program.h"
 #include "udfore/ast/Statement.h"
 #include "udfore/lexer/Lexer.h"
+#include "udfore/parser/Expression.h"
 
 typedef struct Parser
 {
@@ -47,3 +48,5 @@ ASTProgram *parser_parse_program(Parser *parser);
 ASTStatement *parser_parse_statement(Parser *parser);
 
 ASTExpression *parser_parse_expression(Parser *parser);
+
+ASTExpression *parser_parse_expression_with_precedence(Parser *parser, ExpressionPrecedence precedence);
