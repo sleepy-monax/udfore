@@ -8,3 +8,6 @@ a + b;
 b - c;
 a * b;
 b / c;
+
+a + b * c;
+pomme / a + b * c;

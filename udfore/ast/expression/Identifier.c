@@ -13,11 +13,7 @@ void expression_identifier_destroy(ASTExpressionIdentifier *expression)
 
 void expression_identifier_serialize(ASTExpressionIdentifier *expression, Buffer *buffer)
 {
-    buffer_append_str(buffer, "(identifier ");
-
     buffer_append_str(buffer, expression->name);
-
-    buffer_append_str(buffer, ")");
 }
 
 ASTExpressionIdentifier *expression_identifier_create(const char *name)

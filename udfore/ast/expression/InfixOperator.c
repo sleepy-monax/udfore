@@ -13,7 +13,7 @@ void expression_infix_operator_serialize(ASTInfixExpression *expression, Buffer 
     buffer_append_str(buffer, "(");
     astnode_serialize_continue(ASTNODE(expression->lhs), buffer);
     buffer_append_str(buffer, " ");
-    buffer_append_str(buffer, token_type_as_string(expression->operator));
+    buffer_append_str(buffer, operator_token_type_to_literal(expression->operator));
     buffer_append_str(buffer, " ");
     astnode_serialize_continue(ASTNODE(expression->rhs), buffer);
     buffer_append_str(buffer, ")");
