@@ -5,7 +5,7 @@
 #include "udfore/ast/Statement.h"
 #include "udfore/lexer/Lexer.h"
 
-typedef struct
+typedef struct Parser
 {
     Lexer *lexer;
 

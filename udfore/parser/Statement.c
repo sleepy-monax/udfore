@@ -95,7 +95,7 @@ ASTStatement *parser_parse_statement(Parser *parser)
         break;
     }
 
-    if (parser_current_is(parser, TOKEN_SEMICOLON))
+    if (parser_next_is(parser, TOKEN_SEMICOLON))
     {
         parser_advance(parser); // skip the semi colon
     }

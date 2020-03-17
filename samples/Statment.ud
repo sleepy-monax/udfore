@@ -1,6 +1,6 @@
-let v1 := ;
-let v2 := ;
-let v3 := ;
+let v1 := a;
+let v2 := b;
+let v3 := c;
 
 println(`{v1} + {v2} = {v3}`);
 
