@@ -7,6 +7,9 @@ TokenLiteralToType operator_tokens[] = {
     {"!=", TOKEN_NOTEQUAL},
     {">", TOKEN_BIGGER_THAN},
     {"<", TOKEN_LESS_THAN},
+    {">=", TOKEN_BIGGER_OR_EQUAL_THAN},
+    {"<=", TOKEN_LESS_OR_EQUAL_THAN},
+    
     {":=", TOKEN_ASSIGN},
     {"+", TOKEN_PLUS},
     {"++", TOKEN_PLUSPLUS},

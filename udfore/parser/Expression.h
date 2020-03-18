@@ -31,9 +31,12 @@ typedef struct
     TokenType token;
     ExpressionPrecedence precedence;
 
-    ParserPrefixCallback prefix;
-    ParserInfixCallback infix;
-    ParserPostfixCallback postfix;
+    struct
+    {
+        ParserPrefixCallback prefix;
+        ParserInfixCallback infix;
+        ParserPostfixCallback postfix;
+    };
 } ExpressionParserCallback;
 
 ParserPrefixCallback parser_get_prefix_callback(TokenType type);

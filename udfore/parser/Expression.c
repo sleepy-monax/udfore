@@ -16,12 +16,22 @@ ASTInfixExpression *parser_parse_infix_operator(Parser *parser, ASTExpression *l
 }
 
 static ExpressionParserCallback expression_parser_callback[] = {
-    {TOKEN_IDENTIFIER, PRECEDENCE_LOWEST, (ParserPrefixCallback)parser_parse_identifier, NULL, NULL},
-    {TOKEN_PLUS, PRECEDENCE_SUM, NULL, (ParserInfixCallback)parser_parse_infix_operator, NULL},
-    {TOKEN_MINUS, PRECEDENCE_SUM, NULL, (ParserInfixCallback)parser_parse_infix_operator, NULL},
-    {TOKEN_MULT, PRECEDENCE_PRODUCT, NULL, (ParserInfixCallback)parser_parse_infix_operator, NULL},
-    {TOKEN_DIV, PRECEDENCE_PRODUCT, NULL, (ParserInfixCallback)parser_parse_infix_operator, NULL},
-    {TOKEN_ILLEGAL, -1, NULL, NULL, NULL},
+    {TOKEN_IDENTIFIER, PRECEDENCE_LOWEST, {.prefix = (ParserPrefixCallback)parser_parse_identifier}},
+
+    {TOKEN_EQUAL, PRECEDENCE_EQUALS, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+    {TOKEN_NOTEQUAL, PRECEDENCE_EQUALS, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+    {TOKEN_BIGGER_THAN, PRECEDENCE_LESSGREATER, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+    {TOKEN_LESS_THAN, PRECEDENCE_LESSGREATER, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+    {TOKEN_BIGGER_OR_EQUAL_THAN, PRECEDENCE_LESSGREATER, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+    {TOKEN_LESS_OR_EQUAL_THAN, PRECEDENCE_LESSGREATER, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+
+    {TOKEN_PLUS, PRECEDENCE_SUM, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+    {TOKEN_MINUS, PRECEDENCE_SUM, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+    {TOKEN_MULT, PRECEDENCE_PRODUCT, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+    {TOKEN_DIV, PRECEDENCE_PRODUCT, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+    {TOKEN_MOD, PRECEDENCE_MOD, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
+
+    {TOKEN_ILLEGAL, -1, {NULL, NULL, NULL}},
 };
 
 ParserPrefixCallback parser_get_prefix_callback(TokenType type)
