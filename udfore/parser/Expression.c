@@ -1,9 +1,20 @@
+#include <inttypes.h>
+
 #include "udfore/parser/Expression.h"
 #include "udfore/parser/Parser.h"
 
 ASTExpressionIdentifier *parser_parse_identifier(Parser *parser)
 {
     return expression_identifier_create(parser_current(parser)->chr);
+}
+
+ASTValueExpression *parser_parse_value_expression(Parser *parser)
+{
+    int32_t s32 = 0;
+
+    sscanf(parser_current(parser)->chr, "%" SCNd32, &s32);
+
+    return expression_value_create(value_create_s32(s32));
 }
 
 ASTInfixExpression *parser_parse_infix_operator(Parser *parser, ASTExpression *lhs)
@@ -17,6 +28,7 @@ ASTInfixExpression *parser_parse_infix_operator(Parser *parser, ASTExpression *l
 
 static ExpressionParserCallback expression_parser_callback[] = {
     {TOKEN_IDENTIFIER, PRECEDENCE_LOWEST, {.prefix = (ParserPrefixCallback)parser_parse_identifier}},
+    {TOKEN_NUMBER, PRECEDENCE_LOWEST, {.prefix = (ParserPrefixCallback)parser_parse_value_expression}},
 
     {TOKEN_EQUAL, PRECEDENCE_EQUALS, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
     {TOKEN_NOTEQUAL, PRECEDENCE_EQUALS, {.infix = (ParserInfixCallback)parser_parse_infix_operator}},
