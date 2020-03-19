@@ -5,7 +5,7 @@
 #include "udfore/token/Token.h"
 #include "udfore/utils/Logger.h"
 
-bool test_lexer_expect(Source *src, TokenType expected[])
+bool test_lexer_expect(Source *src, const TokenType expected[])
 {
     Lexer *lex = lexer_create(src);
 
@@ -35,7 +35,7 @@ bool test_lexer_expect(Source *src, TokenType expected[])
     return passed;
 }
 
-void test_lexer_expect_from_string(const char *input, TokenType expected[])
+void test_lexer_expect_from_string(const char *input, const TokenType expected[])
 {
     Source *src = string_source_create(input, strlen(input));
     bool passed = test_lexer_expect(src, expected);
@@ -51,7 +51,7 @@ void test_lexer_expect_from_string(const char *input, TokenType expected[])
     }
 }
 
-void test_lexer_expect_from_file(const char *file, TokenType expected[])
+void test_lexer_expect_from_file(const char *file, const TokenType expected[])
 {
     Source *src = file_source_create(file);
     bool passed = test_lexer_expect(src, expected);
@@ -71,15 +71,15 @@ int main(int argc, char const *argv[])
 {
     (void)argc, (void)argv;
 
-    TokenType expected_empty[] = {TOKEN_EOF};
+    const TokenType expected_empty[] = {TOKEN_EOF};
     test_lexer_expect_from_file("./tests/empty.ud", expected_empty);
     test_lexer_expect_from_string("", expected_empty);
 
-    TokenType expected_use_system[] = {TOKEN_USE, TOKEN_IDENTIFIER, TOKEN_SEMICOLON, TOKEN_EOF};
+    const TokenType expected_use_system[] = {TOKEN_USE, TOKEN_IDENTIFIER, TOKEN_SEMICOLON, TOKEN_EOF};
     test_lexer_expect_from_file("./tests/use-system.ud", expected_use_system);
     test_lexer_expect_from_string("use System;", expected_use_system);
 
-    TokenType expected_keywords[] = {
+    const TokenType expected_keywords[] = {
         TOKEN_CAST,
         TOKEN_CONSTRUCTOR,
         TOKEN_DESTRUCTOR,
@@ -97,7 +97,7 @@ int main(int argc, char const *argv[])
     test_lexer_expect_from_file("./tests/keywords.ud", expected_keywords);
     test_lexer_expect_from_string("cast constructor destructor from function let module return spec take type use", expected_keywords);
 
-    TokenType expected_operators[] = {
+    const TokenType expected_operators[] = {
         TOKEN_EQUAL,
         TOKEN_NOTEQUAL,
         TOKEN_BIGGER_THAN,
@@ -129,7 +129,7 @@ int main(int argc, char const *argv[])
     test_lexer_expect_from_file("./tests/operators.ud", expected_operators);
     test_lexer_expect_from_string("= != > < := + ++ - -- * % / . .. -> ( ) { } [ ] , ; ? :", expected_operators);
 
-    TokenType expected_identifier[] = {
+    const TokenType expected_identifier[] = {
         TOKEN_IDENTIFIER,
         TOKEN_IDENTIFIER,
         TOKEN_IDENTIFIER,

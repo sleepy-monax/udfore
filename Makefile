@@ -39,4 +39,4 @@ $(PROJECT)/tests/%.test.out: $(PROJECT)/tests/%.test.o $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 
--include $(SOURCES:.c=.d)
+-include $(SOURCES:.c=.d) $(TESTS:.c=.d)
