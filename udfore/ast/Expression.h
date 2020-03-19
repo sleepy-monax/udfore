@@ -2,6 +2,7 @@
 
 #include "udfore/ast/Node.h"
 #include "udfore/token/Token.h"
+#include "udfore/value/Value.h"
 
 typedef struct ASTExpression
 {
@@ -27,3 +28,11 @@ typedef struct
 } ASTInfixExpression;
 
 ASTInfixExpression *expression_infix_operator_create(TokenType operator, ASTExpression *lhs, ASTExpression *rhs);
+
+typedef struct
+{
+    ASTExpression expression;
+    Value value;
+} ASTValueExpression;
+
+ASTValueExpression *expression_value_create(Value value);
