@@ -22,7 +22,7 @@ type Vector
         );
     }
 
-    cast String
+    cast -> String
     {
         return `[{x}, {y}, {z}]`;
     }

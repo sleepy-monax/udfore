@@ -1,0 +1,143 @@
+take Size from builtin;
+
+module kernel
+{
+    module vga
+    {
+        Size WIDTH := 80;
+        Size HEIGHT := 25;
+
+        enum Color : u8
+        {
+            BLACK,
+            BLUE,
+            GREEN,
+            CYAN,
+            RED,
+            MAGENTA,
+            BROWN,
+            LIGHT_GREY,
+            DARK_GREY,
+            LIGHT_BLUE,
+            LIGHT_GREEN,
+            LIGHT_CYAN,
+            LIGHT_RED,
+            LIGHT_MAGENTA,
+            LIGHT_BROWN,
+            WHITE,
+        }
+
+        type Cell
+        {
+            u8 character;
+            u8 color;
+
+            property foreground -> Color
+            {
+                get -> .color & 0x0f;
+                set -> .color = .color & 0xf0 | value;
+            }
+
+            property background -> Color
+            {
+                get -> .color & 0xf0 >> 4;
+                set -> .color := .color & 0x0f | value << 4;
+            }
+
+            constructor() -> .(' ', Color.WHITE, Color.BLACK)
+
+            constructor(u8 character, Color foreground, Color background)
+            {
+                .character = character;
+                .foreground := foreground
+                .background := background;
+            }
+        }
+
+        const Cell DEFAULT := Cell(' ', Color.WHITE, Color.BLACK);
+
+        type Screen
+        {
+            Cell[WIDTH, HEIGHT] cells;
+
+            property[x, y]
+            {
+                get -> cells[x, y];
+                set -> cells[x, y] := value;
+            }
+
+            constructor()
+            {
+                clear();
+            }
+
+            function clear()
+            {
+                for x in 0..WIDTH
+                    for y in 0..WIDTH
+                        cells[x, y] := DEFAULT;
+            }
+        }
+    }
+
+
+    function strlen(const char[] str) -> Size
+    {
+        Size size = 0;
+
+        while (str[len])
+        {
+            len++;
+        }
+
+        return len;
+    }
+
+    type Terminal
+    {
+        vga.Screen& screen;
+        Size x := 0;
+        Size y := 0;
+
+        constructor(vga.Screen& screen)
+        {
+            .screen = screen;
+        }
+
+        function write(u8 chr)
+        {
+            screen[x, y] = vga.Cell(char, vga.Color.WHITE, vga.Color.BLACK);
+
+            x++;
+
+            if (x == vga.WIDTH)
+            {
+                x := 0;
+
+                y++;
+
+                if (y == vga.HEIGHT)
+                {
+                    y = 0;
+                }
+            }
+        }
+
+        function write(const u8[] str) -> Size
+        {
+            for i in 0..strlen(str)
+            {
+                write(str[i]);
+            }
+        }
+    }
+
+    export function kmain
+    {
+        let screen := @RefFromPtr<vga.Screen>(0xB8000);
+
+        let terminal := Terminal(screen);
+
+        terminal.write("Hello, kernel World!\n");
+    }
+}
