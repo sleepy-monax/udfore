@@ -22,7 +22,7 @@ CFLAGS := -g \
 all: $(PROJECT).out
 
 clean:
-	rm -f $(OBJECTS) $(SOURCES:.c=.d) $(PROJECT).out
+	rm -f $(OBJECTS) $(SOURCES:.c=.d) $(TESTS:.c=.d) $(PROJECT).out
 
 run: $(PROJECT).out
 	./$(PROJECT).out

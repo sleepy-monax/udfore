@@ -1,0 +1,7 @@
+take Size from builtin;
+
+spec Stream
+{
+    function write(const u8[] buffer, Size size) -> Size;
+    function read(u8[] buffer, Size size) -> Size;
+}

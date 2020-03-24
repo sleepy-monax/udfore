@@ -1,0 +1,10 @@
+if @ArchIs64bit
+{
+    type Size alias u64;
+    type Ptr alias u64;
+}
+else
+{
+    type Size alias u32;
+    type Ptr alias u32;
+}
