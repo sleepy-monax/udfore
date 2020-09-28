@@ -8,6 +8,7 @@ CC := gcc
 LDFLAGS := -lm
 CFLAGS := -g \
 		 -std=c11 \
+		 -pedantic \
 		 -MD \
 		 -I. \
 		 -Wall \

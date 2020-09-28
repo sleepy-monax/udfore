@@ -1,0 +1,40 @@
+take { Index, Size } from builtin.types;
+
+concept Indexable<T>
+{
+    operator [] (Index index) -> T&;
+
+    operator [] (Index index, T& value);
+
+    operator lengthof -> Size;
+}
+
+function swap<T>(T &left, T &right)
+{
+    T tmp = left;
+    left = right;
+    right = tmp;
+}
+
+concept Swappable
+{
+    function swap_indexes(Index i, Index j);
+}
+
+adapter Swappable for Indexable<T>
+{
+    function swap_indexes(Index i, Index j)
+    {
+        swap([i], [j])
+    }
+}
+
+concept Sortable<T> = Indexable<T> + Swappable<T>;
+
+function sort(Sortable<T> container)
+{
+    for (Index x in 0..lengthof(sortable) - 1)
+        for (Index y in (x + 1)..lengthof(sortable))
+            if (sortable[i] > sortable[j])
+                container.swap_indexes(i, j);
+}

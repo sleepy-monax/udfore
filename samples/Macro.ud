@@ -1,0 +1,24 @@
+decorator ToString<T>(@Enum<T> type)
+{
+    inject cast -> String
+    {
+        for (EnumMember member in type)
+        {
+            if (this == member.constant_value){
+                return member.name;
+            }
+        }
+
+        return "undefined"
+    }
+}
+
+@ToString
+enum Truc {
+    Foo,
+    Bar,
+    FooBar,
+};
+
+
+println(Truc::Foo);
