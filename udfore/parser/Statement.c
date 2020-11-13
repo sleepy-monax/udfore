@@ -50,11 +50,11 @@ ASTBlockStatement *parser_parse_blockstatement(Parser *parser)
         return NULL;
     }
 
-    parser_advance(parser); //skip the lbrace
+    parser_advance(parser); // skip the lbrace
 
     ASTBlockStatement *block_statement = blockstatement_create();
 
-    while (!parser_current_is(parser, TOKEN_RBRACE) && !parser_current_is(parser, TOKEN_EOF))
+    while (parser_current_is(parser, TOKEN_RBRACE) && !parser_current_is(parser, TOKEN_EOF))
     {
         ASTStatement *inner_statement = parser_parse_statement(parser);
 
