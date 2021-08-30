@@ -62,6 +62,8 @@ ASTBlockStatement *parser_parse_blockstatement(Parser *parser)
         {
             blockstatement_appent_statement(block_statement, inner_statement);
         }
+
+        parser_advance(parser);
     }
 
     return block_statement;

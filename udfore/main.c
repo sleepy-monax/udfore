@@ -21,7 +21,7 @@ int main(int argc, char const *argv[])
 
         char *output = astnode_serialize(ASTNODE(program));
 
-        printf("%s", output);
+        printf("%s\n", output);
 
         free(output);
         astnode_destroy(ASTNODE(program));
